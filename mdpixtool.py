@@ -3,6 +3,7 @@ import os
 from urllib.parse import urlsplit
 import requests
 import concurrent.futures
+
 # 本地化图片
 def mode1(file_path):
     # 读取文件
