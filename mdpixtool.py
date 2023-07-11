@@ -2,6 +2,7 @@ import re
 import os
 from urllib.parse import urlsplit
 import requests
+import concurrent.futures
 # 本地化图片
 def mode1(file_path):
     # 读取文件
@@ -10,17 +11,33 @@ def mode1(file_path):
     # 匹配图片链接(md风格图片)
     pattern = re.compile(r'!\[.*?\]\((http.*?)\)')
     urls = re.findall(pattern, content)
-    for url in urls:
-        local_image_path = download_image(url, file_path)
-        if local_image_path is not None:
-            content = content.replace(url, local_image_path)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+        future_to_url = {executor.submit(download_image, url, file_path): url for url in urls}
+        for future in concurrent.futures.as_completed(future_to_url):
+            url = future_to_url[future]
+            try:
+                local_image_path = future.result()
+                if local_image_path is not None:
+                    content = content.replace(url, local_image_path)
+            except Exception as exc:
+                print(f'{url} generated an exception: {exc}')
+
     # 处理html格式图片
     pattern = re.compile(r'<img src="(http.*?)"')
     urls = re.findall(pattern, content)
-    for url in urls:
-        local_image_path = download_image(url, file_path)
-        if local_image_path is not None:
-            content = content.replace(url, local_image_path)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+        future_to_url = {executor.submit(download_image, url, file_path): url for url in urls}
+        for future in concurrent.futures.as_completed(future_to_url):
+            url = future_to_url[future]
+            try:
+                local_image_path = future.result()
+                if local_image_path is not None:
+                    content = content.replace(url, local_image_path)
+            except Exception as exc:
+                print(f'{url} generated an exception: {exc}')
+
     # 写回文件
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
@@ -40,7 +57,7 @@ def download_image(url, dir_path):
     file_path = os.path.join(local_path, urlsplit(url).path.split('/')[-1])
     with open(file_path, 'wb') as file:
         file.write(response.content)
-    return os.path.join('./images', urlsplit(url).path.split('/')[-1])
+    return './images' + '/' + urlsplit(url).path.split('/')[-1]
 
 # 格式修正
 def mode2(file_path):
