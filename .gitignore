@@ -1,0 +1,10 @@
+# Python:
+*.py[cod]
+*.pyd
+*.pyo
+*.so
+*.egg-info/
+
+# Directories to ignore
+/dist/
+/build/

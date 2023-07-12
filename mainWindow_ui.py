@@ -83,6 +83,11 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.check_2)
 
+        self.check_3 = QCheckBox(self.groupBox)
+        self.check_3.setObjectName(u"check_3")
+
+        self.verticalLayout.addWidget(self.check_3)
+
 
         self.horizontalLayout.addWidget(self.groupBox)
 
@@ -124,6 +129,7 @@ class Ui_Form(object):
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"\u529f\u80fd\u9009\u62e9", None))
         self.check_1.setText(QCoreApplication.translate("Form", u"\u56fe\u5e8a\u56fe\u7247\u672c\u5730\u5316", None))
         self.check_2.setText(QCoreApplication.translate("Form", u"\u4fee\u6539\u4e3amd\u98ce\u683c\u56fe\u7247", None))
+        self.check_3.setText(QCoreApplication.translate("Form", u"\u6570\u5b66\u516c\u5f0f$->$$", None))
         self.groupBox_3.setTitle("")
         self.start_btn.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb\u8f6c\u5316\uff08\u8bf7\u8010\u5fc3\u7b49\u5f85\uff09", None))
         self.label.setText(QCoreApplication.translate("Form", u"https://github.com/thdlrt/md-pix-tool", None))

@@ -85,6 +85,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QCheckBox" name="check_3">
+           <property name="text">
+            <string>数学公式$-&gt;$$</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

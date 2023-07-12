@@ -4,7 +4,7 @@
 # 规范化图片格式，便于上传到各大论坛
 from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox
 from mainWindow_ui import Ui_Form
-from mdpixtool import mode1, mode2 
+from mdpixtool import mode1, mode2, mode3
 import shutil
 import os
 
@@ -20,6 +20,7 @@ class MyWindow(QWidget):
         self.output_path = ''
         self.mode1_choice = False
         self.mode2_choice = False
+        self.mode1_choice = False
 
         # 显示初始化
         self.ui.input_line.setReadOnly(True)
@@ -34,6 +35,7 @@ class MyWindow(QWidget):
         self.ui.output_btn.clicked.connect(self.open_output_dialog)
         self.ui.check_1.stateChanged.connect(self.mode1_choice_changed)
         self.ui.check_2.stateChanged.connect(self.mode2_choice_changed)
+        self.ui.check_3.stateChanged.connect(self.mode3_choice_changed)
         self.ui.start_btn.clicked.connect(self.start)
     # 事件处理
     # 文件选取
@@ -66,6 +68,13 @@ class MyWindow(QWidget):
             self.mode2_choice = True
         else:
             self.mode2_choice = False
+    
+    def mode3_choice_changed(self):
+        if self.ui.check_3.isChecked():
+            self.mode3_choice = True
+        else:
+            self.mode3_choice = False
+
     # 开始操作
     def start(self):
         # 判断输入输出路径是否为空
@@ -86,6 +95,8 @@ class MyWindow(QWidget):
                 mode1(output)
             if self.mode2_choice:
                 mode2(output)
+            if self.mode3_choice:
+                mode3(output)
         elif os.path.isdir(self.input_path):
             if self.output_path:
                 shutil.copytree(self.input_path, output)
@@ -101,6 +112,8 @@ class MyWindow(QWidget):
                             mode1(file_path)
                         if self.mode2_choice:
                             mode2(file_path)
+                        if self.mode3_choice:
+                            mode3(output)
         msgBox = QMessageBox()
         msgBox.setText("转化已经完成!")  # 设置消息文本
         msgBox.exec()

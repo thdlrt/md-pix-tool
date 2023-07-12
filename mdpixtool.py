@@ -78,4 +78,16 @@ def mode2(file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)        
 
-
+#数学公式格式化
+def mode3(file_path):
+    # 读取文件
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    pattern = re.compile(r'(?<!\$)\$([^$]*)\$(?!\$)')
+    urls = re.findall(pattern, content)
+    for url in urls:
+        if url != '':
+            content = content.replace(f'${url}$', f'$${url}$$')
+    # 写回文件
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(content)
